@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Categories = () => {
   return (
     <>
-      <section className="py-2">
+      <section className="py-2 md:px-0 px-3">
         <div className="container mx-auto overflow-x-scroll hide-scrollbar">
           <div className="flex gap-x-8">
             <div className="min-w-fit">
