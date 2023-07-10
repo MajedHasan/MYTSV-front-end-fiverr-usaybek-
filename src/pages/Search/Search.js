@@ -15,7 +15,7 @@ const Search = () => {
     <>
       <NormalLayout searchQuery={searchText}>
         <Featured />
-        <Videos />
+        <Videos searchQuery={searchText} />
       </NormalLayout>
     </>
   );
