@@ -1,10 +1,39 @@
+import { useContext } from "react";
 import { AiFillInstagram } from "react-icons/ai";
 import { BsArrowLeft, BsGoogle, BsTwitter } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 const Signin = () => {
   const navigate = useNavigate();
+
+  const { login } = useContext(AuthContext);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    if (
+      !name ||
+      !email ||
+      !password ||
+      name === "" ||
+      email === "" ||
+      password === ""
+    ) {
+      toast.error("All field are required!");
+    } else {
+      toast.success("Login successfully");
+      await login({ name, email, password });
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  };
 
   return (
     <>
@@ -43,25 +72,35 @@ const Signin = () => {
                 <p className="text-center md:text-md text-xs">
                   or use your email for login:
                 </p>
-                <div className="flex flex-col gap-3 md:w-[400px] w-full">
+                <form
+                  method="post"
+                  className="flex flex-col gap-3 md:w-[400px] w-full"
+                  onSubmit={(e) => handleLogin(e)}
+                >
                   <input
                     type="text"
                     className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                     placeholder="Name"
+                    name="name"
                   />
                   <input
                     type="email"
                     className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                     placeholder="Email"
+                    name="email"
                   />
                   <div className="flex gap-3 md:flex-row flex-col">
                     <input
                       type="password"
                       className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                       placeholder="Password"
+                      name="password"
                     />
                   </div>
-                  <button className="w-full md:py-3 py-2 md:px-4 px-2 md:text-md text-sm rounded-full bg-[#C60C0D] text-white font-semibold">
+                  <button
+                    className="w-full md:py-3 py-2 md:px-4 px-2 md:text-md text-sm rounded-full bg-[#C60C0D] text-white font-semibold"
+                    type="submit"
+                  >
                     Login
                   </button>
                   <span className="md:text-md text-xs">
@@ -70,7 +109,7 @@ const Signin = () => {
                       Register here.
                     </Link>
                   </span>
-                </div>
+                </form>
               </div>
             </div>
             <div className="md:w-5/12 w-3/12">

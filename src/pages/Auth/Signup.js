@@ -2,9 +2,55 @@ import { BsArrowLeft, BsGoogle, BsTwitter } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    const channelName = e.target.channelName.value;
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const phoneNumber = e.target.phoneNumber.value;
+    const checkbox = e.target.checkbox.checked;
+
+    if (
+      !channelName ||
+      !name ||
+      !email ||
+      !password ||
+      !phoneNumber ||
+      channelName === "" ||
+      name === "" ||
+      email === "" ||
+      password === "" ||
+      phoneNumber === ""
+    ) {
+      toast.error("All field are required!");
+    } else {
+      if (checkbox) {
+        toast.success("Signup successfully");
+        localStorage.setItem(
+          "mytsvUser",
+          JSON.stringify({
+            _id: 1,
+            channelName: channelName,
+            name: name,
+            email: email,
+            phoneNumber: phoneNumber,
+          })
+        );
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        toast.error("Please agree to Terms and Privacy.");
+      }
+    }
+  };
 
   return (
     <>
@@ -43,42 +89,54 @@ const Signup = () => {
                 <p className="text-center md:text-md text-xs">
                   or use your email for registration:
                 </p>
-                <div className="flex flex-col gap-3 md:w-[400px] w-full">
+                <form
+                  className="flex flex-col gap-3 md:w-[400px] w-full"
+                  method="post"
+                  onSubmit={(e) => handleSignup(e)}
+                >
                   <input
                     type="text"
                     className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                     placeholder="Channel Name"
+                    name="channelName"
                   />
                   <input
                     type="text"
                     className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                     placeholder="Name"
+                    name="name"
                   />
                   <input
                     type="email"
                     className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                     placeholder="Email"
+                    name="email"
                   />
                   <div className="flex gap-3 md:flex-row flex-col">
                     <input
                       type="password"
                       className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                       placeholder="Password"
+                      name="password"
                     />
                     <input
                       type="number"
                       className="rounded-full border-[1px] border-[#0A2A8D52] bg-[#E3EAFF52] outline-none py-2 md:px-4 px-2 md:text-md text-xs w-full"
                       placeholder="Phone Number"
+                      name="phoneNumber"
                     />
                   </div>
                   <div className="flex gap-1">
-                    <input type="checkbox" name="" id="checkbox" />
+                    <input type="checkbox" name="checkbox" id="checkbox" />
                     <label htmlFor="checkbox" className="md:text-md text-xs">
                       I agree to Terms and{" "}
                       <span className="text-[#C60C0D]">Privacy.</span>
                     </label>
                   </div>
-                  <button className="w-full md:py-3 py-2 md:px-4 px-2 md:text-md text-sm rounded-full bg-[#C60C0D] text-white font-semibold">
+                  <button
+                    type="submit"
+                    className="w-full md:py-3 py-2 md:px-4 px-2 md:text-md text-sm rounded-full bg-[#C60C0D] text-white font-semibold"
+                  >
                     Sign Up
                   </button>
                   <span className="md:text-md text-xs">
@@ -87,7 +145,7 @@ const Signup = () => {
                       Login here.
                     </Link>
                   </span>
-                </div>
+                </form>
               </div>
             </div>
             <div className="md:w-5/12 w-3/12">

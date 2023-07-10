@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { FaTimes } from "react-icons/fa";
@@ -8,10 +8,10 @@ import { BsChevronDown, BsChevronRight, BsGraphUpArrow } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { VscSignOut } from "react-icons/vsc";
 import { AiFillPlayCircle, AiFillSetting } from "react-icons/ai";
+import { AuthContext } from "../../context/AuthContext";
 
 const Header = ({ searchQuery }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [user, setUser] = useState(null);
   const [mobileSearch, setMobileSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
@@ -20,9 +20,7 @@ const Header = ({ searchQuery }) => {
     navigate(`/search?q=${searchText}`);
   };
 
-  useEffect(() => {
-    setUser(null);
-  }, []);
+  const { currentUser, logout } = useContext(AuthContext);
 
   return (
     <>
@@ -87,7 +85,7 @@ const Header = ({ searchQuery }) => {
             </button>
           </div>
 
-          {user ? (
+          {currentUser ? (
             <>
               <div className="flex gap-4 items-center relative">
                 <BiSolidVideoPlus className="md:text-3xl text-xl cursor-pointer" />
@@ -112,7 +110,7 @@ const Header = ({ searchQuery }) => {
                   <>
                     <div className="shadow rounded-lg py-4 px-2 absolute right-0 top-10 w-40 z-20 bg-white">
                       <span className="font-medium text-red-600">
-                        James John
+                        {currentUser.name}
                       </span>
                       <hr className="my-2" />
 
@@ -123,13 +121,13 @@ const Header = ({ searchQuery }) => {
                         <CgProfile className="text-[#C60C0D] text-md" />
                         Profile
                       </Link>
-                      <Link
-                        to="/user/profile"
+                      <button
                         className="flex items-center gap-4 text-blue-900 text-sm mb-1"
+                        onClick={() => logout({})}
                       >
                         <VscSignOut className="text-[#C60C0D] text-md" />
                         Sign Out
-                      </Link>
+                      </button>
 
                       <hr className="my-2" />
 
