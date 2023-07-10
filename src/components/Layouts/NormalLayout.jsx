@@ -1,9 +1,9 @@
 import Header from "../Common/Header";
 
-const NormalLayout = ({ children }) => {
+const NormalLayout = ({ children, searchQuery }) => {
   return (
     <>
-      <Header />
+      <Header searchQuery={searchQuery} />
       {children}
     </>
   );

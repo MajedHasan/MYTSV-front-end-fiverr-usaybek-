@@ -1,21 +1,27 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { FaTimes } from "react-icons/fa";
 import { BiSolidVideoPlus } from "react-icons/bi";
 import { IoMdNotifications } from "react-icons/io";
-import { BsChevronDown, BsChevronRight } from "react-icons/bs";
+import { BsChevronDown, BsChevronRight, BsGraphUpArrow } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { VscSignOut } from "react-icons/vsc";
+import { AiFillPlayCircle, AiFillSetting } from "react-icons/ai";
 
-const Header = () => {
+const Header = ({ searchQuery }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [user, setUser] = useState(null);
   const [mobileSearch, setMobileSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    navigate(`/search?q=${searchText}`);
+  };
 
   useEffect(() => {
-    setUser({});
+    setUser(null);
   }, []);
 
   return (
@@ -34,7 +40,7 @@ const Header = () => {
                 type="text"
                 className="w-full outline-none border-none text-sm pl-2 flex-1"
                 placeholder="Search..."
-                value={searchText}
+                value={searchQuery ? searchQuery : searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
               <button
@@ -63,7 +69,7 @@ const Header = () => {
                 type="text"
                 className="outline-none border-none text-sm pl-2 flex-1 rounded-lg"
                 placeholder="Search..."
-                value={searchText}
+                value={searchQuery ? searchQuery : searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
               <button
@@ -114,14 +120,14 @@ const Header = () => {
                         to="/user/profile"
                         className="flex items-center gap-4 text-blue-900 text-sm mb-1"
                       >
-                        <span className="text-red-600">P</span>
+                        <CgProfile className="text-[#C60C0D] text-md" />
                         Profile
                       </Link>
                       <Link
                         to="/user/profile"
                         className="flex items-center gap-4 text-blue-900 text-sm mb-1"
                       >
-                        <span className="text-red-600">S</span>
+                        <VscSignOut className="text-[#C60C0D] text-md" />
                         Sign Out
                       </Link>
 
@@ -131,28 +137,28 @@ const Header = () => {
                         to="/user/myvideos"
                         className="flex items-center gap-4 text-blue-900 text-sm mb-1"
                       >
-                        <span className="text-red-600">V</span>
+                        <AiFillPlayCircle className="text-[#C60C0D] text-md" />
                         My Videos
                       </Link>
                       <Link
                         to="/user/myvideos"
                         className="flex items-center gap-4 text-blue-900 text-sm mb-1"
                       >
-                        <span className="text-red-600">A</span>
+                        <BsGraphUpArrow className="text-[#C60C0D] text-md" />
                         Video Analytics
                       </Link>
                       <Link
                         to="/user/myvideos"
                         className="flex items-center gap-4 text-blue-900 text-sm mb-1"
                       >
-                        <span className="text-red-600">P</span>
+                        <CgProfile className="text-[#C60C0D] text-md" />
                         Video Promotion
                       </Link>
                       <Link
                         to="/user/myvideos"
                         className="flex items-center gap-4 text-blue-900 text-sm mb-1"
                       >
-                        <span className="text-red-600">S</span>
+                        <AiFillSetting className="text-[#C60C0D] text-md" />
                         Settings
                       </Link>
                     </div>
@@ -170,7 +176,7 @@ const Header = () => {
                   Sign Up
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/signin"
                   className="text-[#0A2A8D] md:text-sm text-xs md:px-7 px-4 md:py-2 py-1 rounded-full border-[1px] border-[#CACACA]"
                 >
                   Sign In
